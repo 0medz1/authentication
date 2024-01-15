@@ -1,0 +1,40 @@
+﻿
+@page "/popup"
+@using System
+<Modal @ref="modal" title="Modal title" IsVerticallyCentered="true">
+    <BodyTemplate>
+        <p> Le nom est :@Name  </p>
+        <p> L Age est :@Age  </p>
+        <p> L Email est :@Email  </p> 
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Close</Button>
+        <Button Color="ButtonColor.Primary">Save changes</Button>
+    </FooterTemplate>
+</Modal>
+
+<Button Color="ButtonColor.Primary" @onclick="OnShowModalClick">Vertically centered modal</Button>
+
+@code {
+    private Modal modal = default!;
+    async protected override void OnAfterRender(bool firstRender)
+    { if (firstRender)
+        {
+            await modal.ShowAsync();
+        }
+        
+    }
+
+   
+
+    private async Task OnShowModalClick()
+    {
+        await modal.ShowAsync();
+    }
+
+    private async Task OnHideModalClick()
+    {
+        await modal.HideAsync();
+    }
+}
+

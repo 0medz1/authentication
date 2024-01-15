@@ -1,0 +1,44 @@
+﻿@page "/test"
+@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager Navigation
+
+@inject NavigationManager navigationManager
+<h3>Test</h3>
+<EditForm Model=@Person>
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <InputText @bind-Value=Person.Name class="form-control" id="Name" />
+        <ValidationMessage For="() => Person.Name" />
+    </div>
+    <div class="form-group">
+        <label for="Age">Age</label>
+        <InputNumber @bind-Value=Person.Age class="form-control" id="Age" />
+        <ValidationMessage For=@(() => Person.Age) />
+    </div>
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <InputText @bind-Value=Person.Email class="form-control" id="Email" />
+        <ValidationMessage For=@(() => Person.Email) />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2" @onclick="() => HandleButton()" >Submit</button>
+   
+</EditForm>
+@code {
+    Person Person = new Person(); 
+    private void HandleButton()
+    {
+        var queryStrDict = new Dictionary<string, string>
+            {
+                { "Name", Person.Name },
+        { "Age", Person.Age.ToString() },
+        { "Email", Person.Email }
+            };
+        navigationManager.NavigateTo(
+            QueryHelpers.AddQueryString("/Popup", queryStrDict)
+        );
+        
+       
+    }
+}
